@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegEx to NFA Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css">
+    <script defer src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="features-title">Everything You Need for RegEx to NFA Conversion</h2>
+            <p class="features-subtitle">Comprehensive features designed to make regular expression visualization and
+                learning seamless, backed by Thompson's Construction algorithm and interactive technology.</p>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <div class="icon-circle">⚙️</div>
+                        <span class="feature-badge ai-badge">Algorithm</span>
+                    </div>
+                    <h3 class="feature-title">Thompson's Construction</h3>
+                    <p class="feature-description">Automatic conversion algorithm that transforms regular expressions
+                        into NFAs using proven Thompson's Construction rules with step-by-step visualization.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <div class="icon-circle">📊</div>
+                        <span class="feature-badge stats-badge">Analytics</span>
+                    </div>
+                    <h3 class="feature-title">Real-Time Statistics</h3>
+                    <p class="feature-description">Monitor NFA complexity with live statistics tracking states,
+                        transitions, alphabet usage, and complexity metrics for better understanding.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <div class="icon-circle">🎬</div>
+                        <span class="feature-badge edu-badge">Interactive</span>
+                    </div>
+                    <h3 class="feature-title">Interactive Animation</h3>
+                    <p class="feature-description">Step-by-step string testing with playback controls, speed adjustment,
+                        and visual highlighting to understand NFA execution flow.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <div class="icon-circle">📚</div>
+                        <span class="feature-badge learn-badge">Educational</span>
+                    </div>
+                    <h3 class="feature-title">Conversion Steps</h3>
+                    <p class="feature-description">Detailed breakdown of regex-to-NFA conversion process including
+                        preprocessing, postfix conversion, and Thompson's rules application.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <div class="icon-circle">💾</div>
+                        <span class="feature-badge export-badge">Export</span>
+                    </div>
+                    <h3 class="feature-title">Save & Share</h3>
+                    <p class="feature-description">Download NFA diagrams as PNG images and copy regex patterns to
+                        clipboard for easy sharing and documentation.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <div class="icon-circle">⚡</div>
+                        <span class="feature-badge quick-badge">Quick Start</span>
+                    </div>
+                    <h3 class="feature-title">Example Templates</h3>
+                    <p class="feature-description">Pre-built regex examples for common patterns with instant
+                        visualization to help you learn and experiment quickly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <h1>RegEx to NFA Visualizer</h1>
+
+            <!-- Examples Section -->
+            <section id="examples">
+                <h3>Quick Examples:</h3>
+                <div class="example-buttons">
+                    <button class="example-btn" data-regex="a*b">a*b</button>
+                    <button class="example-btn" data-regex="(a|b)*">(a|b)*</button>
+                    <button class="example-btn" data-regex="ab*c">ab*c</button>
+                    <button class="example-btn" data-regex="(a|b)*abb">(a|b)*abb</button>
+                    <button class="example-btn" data-regex="a(b|c)*">a(b|c)*</button>
+                </div>
+            </section>
+
+            <section id="controls">
+                <label for="regex-input">Regular Expression:</label>
+                <input id="regex-input" type="text" placeholder="Enter RegEx (e.g., a*b, (a|b)*)">
+                <div class="regex-info" id="regex-help">
+                    <p><strong>Supported Operators:</strong></p>
+                    <ul class="operator-list">
+                        <li><span class="operator"
+                                data-tooltip="Matches zero or more occurrences of the preceding character">*</span> -
+                            Kleene Star</li>
+                        <li><span class="operator"
+                                data-tooltip="Matches either the expression before or after the |">|</span> - Union (OR)
+                        </li>
+                        <li><span class="operator" data-tooltip="Groups expressions together">()</span> - Grouping</li>
+                        <li><span class="operator" data-tooltip="Matches characters in sequence">abc</span> -
+                            Concatenation</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Educational Panel -->
+            <section id="educational-panel" class="educational-panel">
+                <h3 class="panel-header" id="educational-header">
+                    📚 Conversion Steps
+                    <span class="toggle-icon" id="toggle-steps">▼</span>
+                </h3>
+                <div id="conversion-steps" class="collapsible-content">
+                    <p class="step-placeholder">Enter a regex and click "Generate NFA" to see the conversion process</p>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Right Content Area -->
+        <main class="main-content">
+            <!-- Statistics Dashboard -->
+            <section id="statistics-panel" class="statistics-panel">
+                <h3>📊 NFA Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-states">-</div>
+                        <div class="stat-label">States</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-transitions">-</div>
+                        <div class="stat-label">Transitions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-alphabet">-</div>
+                        <div class="stat-label">Alphabet</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-complexity">-</div>
+                        <div class="stat-label">Complexity</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="visualization">
+                <div class="export-controls">
+                    <button id="download-png-btn" type="button" title="Download as PNG" disabled>📥 PNG</button>
+                    <button id="copy-regex-btn" type="button" title="Copy regex to clipboard" disabled>📋 Copy</button>
+                </div>
+                <div id="nfa-graph"></div>
+            </section>
+
+            <!-- Test String Panel -->
+            <section id="test-string-panel" class="test-string-panel">
+                <h3>Test String:</h3>
+                <div class="test-string-controls">
+                    <input id="string-input" type="text" placeholder="Enter Test String">
+                    <div class="test-buttons">
+                        <button id="generate-btn" type="button">Generate NFA</button>
+                        <button id="animate-btn" type="button">Test String</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Section: Side by Side -->
+            <div class="bottom-section">
+                <!-- Step Info Section -->
+                <section id="step-info">
+                    <h3>Simulation Steps:</h3>
+                    <div id="step-display">
+                        <p class="step-placeholder">Click "Test String" to see step-by-step execution</p>
+                    </div>
+                </section>
+
+                <!-- Animation Controls -->
+                <section id="animation-controls">
+                    <h3>Animation Controls:</h3>
+                    <div class="speed-control">
+                        <label for="speed-slider">Speed:</label>
+                        <input type="range" id="speed-slider" min="1" max="3" value="2" step="1">
+                        <span id="speed-label">Medium</span>
+                    </div>
+                    <div class="playback-controls">
+                        <button id="step-backward-btn" type="button" title="Previous Step" disabled>◄</button>
+                        <button id="pause-btn" type="button" title="Pause/Resume" disabled>⏸</button>
+                        <button id="step-forward-btn" type="button" title="Next Step" disabled>►</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
