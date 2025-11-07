@@ -447,6 +447,99 @@ function updateStatistics(visData, regex) {
     if (complexity > 20) complexityLevel = 'High';
     else if (complexity > 10) complexityLevel = 'Medium';
     document.getElementById('stat-complexity').textContent = complexityLevel;
+    
+    // Generate and display transition table
+    generateTransitionTable(visData);
+}
+
+// ===== TRANSITION TABLE GENERATION =====
+function generateTransitionTable(visData) {
+    const transitionTableEl = document.getElementById('transition-table');
+    if (!transitionTableEl) return;
+    
+    // Build transition map: state -> symbol -> [target states]
+    const transitionMap = new Map();
+    const allSymbols = new Set();
+    
+    // Initialize all states
+    visData.nodes.forEach(node => {
+        transitionMap.set(node.id, new Map());
+    });
+    
+    // Populate transitions
+    visData.edges.forEach(edge => {
+        const symbols = edge.label.split(', ').map(s => s.trim());
+        symbols.forEach(symbol => {
+            allSymbols.add(symbol);
+            if (!transitionMap.get(edge.from).has(symbol)) {
+                transitionMap.get(edge.from).set(symbol, []);
+            }
+            transitionMap.get(edge.from).get(symbol).push(edge.to);
+        });
+    });
+    
+    // Sort symbols: epsilon first, then alphabetically
+    const sortedSymbols = Array.from(allSymbols).sort((a, b) => {
+        if (a === 'ε') return -1;
+        if (b === 'ε') return 1;
+        return a.localeCompare(b);
+    });
+    
+    // Build HTML table
+    let html = '<table class="transition-table"><thead><tr><th>State</th>';
+    
+    // Add column headers for each symbol
+    sortedSymbols.forEach(symbol => {
+        html += `<th>${symbol}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+    
+    // Add rows for each state
+    visData.nodes.forEach(node => {
+        const stateLabel = node.label;
+        const isStart = node.color.border === '#2563eb';
+        const isAccept = node.borderWidth === 4 && node.color.border === '#f59e0b';
+        
+        let stateDisplay = stateLabel;
+        if (isStart && isAccept) {
+            stateDisplay = `→${stateLabel}*`;
+        } else if (isStart) {
+            stateDisplay = `→${stateLabel}`;
+        } else if (isAccept) {
+            stateDisplay = `${stateLabel}*`;
+        }
+        
+        html += `<tr><td class="state-cell"><strong>${stateDisplay}</strong></td>`;
+        
+        // Add transition cells for each symbol
+        sortedSymbols.forEach(symbol => {
+            const targets = transitionMap.get(node.id).get(symbol) || [];
+            if (targets.length > 0) {
+                const targetLabels = targets.map(id => {
+                    const targetNode = visData.nodes.find(n => n.id === id);
+                    return targetNode ? targetNode.label : `S${id}`;
+                }).join(', ');
+                html += `<td class="transition-cell">{${targetLabels}}</td>`;
+            } else {
+                html += '<td class="empty-cell">∅</td>';
+            }
+        });
+        
+        html += '</tr>';
+    });
+    
+    html += '</tbody></table>';
+    
+    // Add legend
+    html += `
+        <div class="table-legend">
+            <span><strong>→</strong> = Start State</span>
+            <span><strong>*</strong> = Accept State</span>
+            <span><strong>∅</strong> = No Transition</span>
+        </div>
+    `;
+    
+    transitionTableEl.innerHTML = html;
 }
 
 // ===== EXAMPLE BUTTONS =====
