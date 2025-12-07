@@ -19,6 +19,7 @@ A comprehensive web-based tool for visualizing the conversion of Regular Express
   - Number of transitions
   - Alphabet size
   - Complexity metrics
+- **Transition Table**: Visual representation of state transitions showing all possible moves for each state and input symbol
 
 ### Interactive
 - **Interactive Animation**: Step-by-step string testing with:
@@ -66,10 +67,10 @@ A comprehensive web-based tool for visualizing the conversion of Regular Express
      - `abc` - Concatenation
 
 3. **Generate NFA**
-   - Click the "Generate NFA" button
+   - Click the "Generate NFA" button below the regex input
    - View the generated NFA graph
    - Check the conversion steps in the left sidebar
-   - Monitor statistics in the dashboard
+   - Monitor statistics and transition table in the dashboard
 
 4. **Test Strings**
    - Enter a test string in the test input field
@@ -89,7 +90,7 @@ A comprehensive web-based tool for visualizing the conversion of Regular Express
   - Quick examples
   - Conversion steps (collapsible)
 - **Right Content Area**:
-  - Statistics dashboard
+  - Statistics dashboard with transition table
   - NFA graph visualization
   - Test string panel
   - Animation controls
