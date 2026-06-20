@@ -184,6 +184,4 @@ If you encounter any issues or have questions, please open an issue in the repos
 
 ---
 
-**Made with ❤️ for Theory of Computation students**
-
 *Understanding automata theory, one regex at a time* ✨
